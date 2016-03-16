@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+    <title>MVC-SinglePage</title>
+    <meta charset="utf-8"/>
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <meta content="telephone=no,email=no" name="format-detection"/>
+    <script type="text/javascript">
+//这是个用于rem适配屏幕的函数
+(function(e,a){function f(){return parseFloat(e.getComputedStyle(a.documentElement,null)["font-size"])}function g(){if(d){var b=a.documentElement.offsetWidth;if(d!=b){var c=a.createElement("style");c.innerHTML="@media only screen and (width: "+b+"px) {html{font-size: "+200/750*b+"px !important;}}";a.getElementsByTagName("head")[0].appendChild(c);e.removeEventListener("orientationchange",orientationchange)}}else d=a.documentElement.offsetWidth,a.documentElement.style.fontSize=200/750*d+"px",b=f(),
+c=200/750*d,b!==c&&(b>c+1||b<c-1)&&(a.documentElement.style.fontSize="200px",a.documentElement.style.fontSize=200/f()*c+"px")}var d;g();0>e.navigator.userAgent.indexOf("iPhone")&&e.addEventListener("orientationchange",function(){setTimeout(function(){g()},300)})})(window,document);
+    </script>
+
+    <style>
+        html,body{height:100%;margin:0;padding:0;font-family:"Microsoft YaHei",Arial,Helvetica,sans-serif,"宋体";}
+        header{height:0.44rem;border:0.005rem #dddddd solid;font-size:0.14rem}
+        .left{float:left}
+        .right{float:right}
+        .logo{margin:0.09rem 0 0 0.1rem;}
+        .logo img{width:0.63rem;height:0.26rem;}
+        .tel{color:#00aaee;padding-left:0.1rem;margin:0.15rem 0.1rem 0 0;line-height:0.14rem;text-decoration:none}
+
+        #view-box{position:relative;min-height:-webkit-calc(100% - 0.45rem);width:3.75rem;margin:0 auto;}
+        .bg-loading{position:absolute;margin:0;left:50%;top:5%;width:.16rem; height:.16rem}
+        footer{display:none;}
+    </style>
 </head>
 <body>
+    <section>
+    </section>
     
+    <link rel="stylesheet" href="{url}css/main.css{/url}">
+    <script src="js/jsMvc.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            var scriptdom = document.createElement('script');
+            scriptdom.type = 'text/javascript';
+            scriptdom.src = '{url}js/main.js{/url}';
+            document.body.appendChild(scriptdom);
+        }, false);
+    </script>
 </body>
 </html>
