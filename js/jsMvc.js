@@ -11,8 +11,8 @@
 
     var jsMvc = function () {
         //添加路由
-        this.AddRoute = function (controller, route) {
-            _routeMap[route] = new routeObj(controller, route);
+        this.AddRoute = function (route, controller) {
+            _routeMap[route] = new routeObj(route, controller);
 
             //设置第一个为默认路由
             if(!_defaultRoute){
@@ -37,14 +37,14 @@
 
     };
 
-    //Function to load external html data
     function loadTemplate() {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function ()
         {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
                 {
-                    _viewElement.innerHTML = viewHtml; 
+                    _viewElement.innerHTML = xmlhttp.responseText;
+
                     setAnimate(true);
                 }
         };
@@ -56,9 +56,9 @@
         xmlhttp.send();
     }
 
-    var routeObj = function (c, r, p) {
-        this.controller = c;
+    var routeObj = function (r, c, p) {
         this.route = r;
+        this.controller = c;
         this.parm = p;
     };
 
@@ -82,7 +82,7 @@
         _viewRoute.parm = parm;
 
         //加入历史队列
-        _history.push(new routeObj(_viewRoute.controller, _viewRoute.rout, _viewRoute.parm));
+        _history.push(new routeObj(_viewRoute.route, _viewRoute.controller, _viewRoute.parm));
 
         _viewElement = d.querySelector('#view-' + _viewRoute.route);
     
@@ -99,6 +99,7 @@
 
             _viewElementBox.appendChild(view);
             _viewElement = view;
+            _viewElement.style.visibility = 'hidden';
 
             loadTemplate();
 		}else{
@@ -114,14 +115,15 @@
         }
 
         _viewElement.classList.add('active');
-		_viewElement.style.visibility = 'hidden';
+        _viewElement.style.visibility = null;
 
         var callobj = {
             isFirst:isFirst,
-            route:_viewRoute,
-            history:_history.length > 1?_history[_history.length-2]:undefined,
+            routeInfo:_viewRoute,
+            preRouteInfo: _history.length > 1?_history[_history.length-2]:undefined
         };
 
+        //
         _callback(callobj);
     }
 
