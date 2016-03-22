@@ -4,24 +4,112 @@
     <title>MVC-SinglePage</title>
     <meta charset="utf-8"/>
     <style>
-        html,body{height:100%;margin:0;padding:0;font-family:"Microsoft YaHei",Arial,Helvetica,sans-serif,"宋体";}
-        header{height:0.44rem;border:0.005rem #dddddd solid;font-size:0.14rem}
-        .left{float:left}
-        .right{float:right}
-        .logo{margin:0.09rem 0 0 0.1rem;}
-        .logo img{width:0.63rem;height:0.26rem;}
-        .tel{color:#00aaee;padding-left:0.1rem;margin:0.15rem 0.1rem 0 0;line-height:0.14rem;text-decoration:none}
-
-        #view-box{position:relative;min-height:-webkit-calc(100% - 0.45rem);width:3.75rem;margin:0 auto;}
-        .bg-loading{position:absolute;margin:0;left:50%;top:5%;width:.16rem; height:.16rem}
-        footer{display:none;}
+        .view{display:none}
+        .view.active{display:initial}
     </style>
 </head>
 <body>
-    <section>
+    <a href="#author">作者<a>
+    <a href="#hobby">爱好<a>
+    <section id="view-box">
     </section>
     
     <script src="js/jsMvc.js"></script>
-    <script></script>
+    <script>
+        function render(result) {
+            var needRefash = ['author'];
+
+            if(result.isFirst){
+                //每次load完页面都需要执行,但也可以不执行，如果没有control
+                result.routeInfo.controller && result.routeInfo.controller();
+
+            }else if(!result.isFirst && needRefash.indexOf(result.routeInfo.route) !== -1){
+                //需要每次都执行的页面
+                result.routeInfo.controller();
+            }
+
+            if(result.preRouteInfo && needRefash.indexOf(result.preRouteInfo.route) !== -1){
+                //需要被销毁的页面
+                result.preRouteInfo.controller(true);
+            }
+        }
+
+        var AuthorController = (function() {
+            var isInit = false, name, callBtn, count = 0, countDiv;
+
+            function init() {
+                name = 'jie luo';
+                callBtn = document.querySelector('.callBtn');
+                countDiv = document.querySelector('.countDiv');
+
+                isInit = true;
+
+                render();
+            }
+
+            var callHandle = function() {
+                alert("我的名字叫:" + name);
+                countDiv.innerHTML = ++count;
+            }
+
+
+            function render() {
+                callBtn.addEventListener('click', callHandle);
+            }
+             
+            function destroy() {
+                isInit = false;
+                name = null;
+                callBtn.removeEventListener('click', callHandle);
+                callBtn = null;
+                count = 0;
+                countDiv.innerHTML = 0;
+                countDiv = null;
+            }
+
+            //创建闭包函数
+            return function(isDestroy){
+                if(!isInit) {
+                    //只执行一次的init
+                    init();
+                }else if(isDestroy) {
+                    //销毁
+                    destroy();
+                }else{
+                    //可以每次调用
+                    //doSomeThing();
+                }
+            }
+        })();
+
+        var HobbyController = (function() {
+            var isInit = false, hobby = [], listDiv, addBtn, inputHobby;
+
+            function init() {
+                name = 'jie luo';
+                addBtn = document.querySelector('.addBtn');
+                inputHobby = document.querySelector('.inputHobby');
+                listDiv = document.querySelector('.listDiv');
+
+                
+                addBtn.addEventListener('click', function(){
+                    listDiv.innerHTML +=  inputHobby.value + '<br>';
+                });
+
+                isInit = true;
+            }
+
+            return function(){
+                //仅仅被创建一次，以后只是隐藏与显示切换
+                if(!isInit) {
+                    init();
+                }
+            }
+        })()
+
+        jsMvc.AddRoute('hobby', HobbyController);
+        jsMvc.AddRoute('author', AuthorController);
+        jsMvc.Initialize( 'view-box', render);
+    </script>
 </body>
 </html>
