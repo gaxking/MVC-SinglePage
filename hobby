@@ -1,0 +1,11 @@
+我有哪些爱好？
+<div class="listDiv"></div>
+<input type="text" class="inputHobby"><button class="addBtn">添加</button>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<p>这是一个初始化一次，不会被回收的页面<p>

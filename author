@@ -1,0 +1,11 @@
+<p>我是谁</p>
+你叫了我<span class="countDiv">0</span>次
+<button class="callBtn">叫我一下</button>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<p>初始化一次，被切换时每次都会被销毁，显示时都被重新初始化or可以执行render函数</p>
