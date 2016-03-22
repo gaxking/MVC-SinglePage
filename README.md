@@ -6,7 +6,7 @@
 对各页面间切换有极高速度要求的应用
 
 ##tips
-1.建议每一个view直接在view里面写css，可减少http请求\n
+1.建议每一个view直接在view里面写css，可减少http请求  
 2.禁止在view里面使用id，避免污染全局
 
 ##next
