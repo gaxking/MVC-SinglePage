@@ -11,3 +11,5 @@
 
 ##next
 增加一些辅助的function  at  js/common.js
+
+最近发现 history.pushState/history.replaceState 可取代hash的方法,but微信的jsAPI可能有问题，先继续观察一段时间
