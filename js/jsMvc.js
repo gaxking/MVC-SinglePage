@@ -82,7 +82,8 @@
 		//加入历史队列
 		_history.push(new routeObj(_viewRoute.route, _viewRoute.controller, _viewRoute.parm));
 
-		_viewElement = d.querySelector('#view-' + _viewRoute.route);
+		//优化查询操作
+		_viewElement = _viewRoute.element || d.querySelector('#view-' + _viewRoute.route);
 
 		//创建新的view
 		if (!_viewElement) {
@@ -90,6 +91,8 @@
 
 			view.className = 'view';
 			view.id = 'view-'+_viewRoute.route;
+
+			_viewRoute.element = view;
 
 			if(parm.length !== 0) {
 				view.setAttribute('data-parm', parm.join('/'));
